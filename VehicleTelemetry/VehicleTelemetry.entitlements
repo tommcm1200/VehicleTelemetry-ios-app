@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.tommcmeekin.VehicleTelemetry</string>
+	</array>
+	<!-- CarPlay "Driving Task" entitlement intentionally omitted until Apple
+	     approves the request (see CARPLAY_ENTITLEMENT_REQUEST.md). It is a
+	     managed capability: including it before approval breaks device signing
+	     ("requires approval from Apple to include in a profile"). Re-add
+	       <key>com.apple.developer.carplay-driving-task</key><true/>
+	     once Apple grants it, then regenerate the provisioning profile. -->
+</dict>
+</plist>
