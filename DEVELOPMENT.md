@@ -5,6 +5,9 @@
 **Milestone 8 - TestFlight Readiness** (readiness checks done; **final archive /
 upload is a manual step via your Apple account** - see TESTFLIGHT.md).
 
+**CarPlay (post-V1):** native CarPlay "Driving Task" app shipped and validated on
+hardware (entitlement approved by Apple 2026-10-06). See README "CarPlay".
+
 ## Gates passed (all on real hardware)
 
 - **M1 - CarPlay:** widget rendered live in CarPlay.
@@ -13,6 +16,9 @@ upload is a manual step via your Apple account** - see TESTFLIGHT.md).
 - **M4 - decode comparison:** app matched VictronConnect exactly.
 - **M5 - live telemetry:** real data drives dashboard + widget + CarPlay;
   auto-reconnects on relaunch. (Background goes stale by design - see limitation.)
+- **CarPlay app:** native Driving Task app renders the live battery grid on the
+  car display, titled with the device name (validated via CarPlay Simulator.app
+  on a physical iPhone, since Xcode 27's Device Hub can't render CarPlay).
 
 ## Completed
 
@@ -35,6 +41,17 @@ upload is a manual step via your Apple account** - see TESTFLIGHT.md).
   force-unwrap hardening, and an **app icon** (green charge gauge + bolt).
 - **M8 readiness:** Release build passes; repo secret scan clean (only public
   NIST test vectors + a Keychain constant); `TESTFLIGHT.md` written.
+- **CarPlay (post-V1):** native CarPlay Driving Task app. Shared `AppEnvironment`
+  drives one telemetry pipeline for the phone + CarPlay scene (so CarPlay runs
+  without the phone UI); `CPTabBarTemplate` ("Battery" tab, room for TPMS) with a
+  `CPGridTemplate` of colored icon tiles titled with the device name. Updates
+  live while the phone **screen is awake** (locked is fine); when the screen
+  sleeps iOS stops delivering the advertisement scan, so it shows the last-known
+  snapshot (Stale/Unavailable) until the screen wakes. Entitlement approved by
+  Apple 2026-10-06. Gotchas handled:
+  `INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO` (else Xcode emits an
+  empty scene manifest), and `nonisolated` scene-delegate methods (else UIKit
+  can't see them under `MainActor` default isolation). See README "CarPlay".
 
 ## Build status
 
@@ -43,10 +60,11 @@ upload is a manual step via your Apple account** - see TESTFLIGHT.md).
 
 ## Tests
 
-- **39 unit tests pass, 0 failed** across: BatteryState, TelemetryFreshness,
-  SharedTelemetryStore, VictronAdvertisement, VictronCrypto (incl. NIST vector),
-  VictronInstantReadoutRecord (real packet), VictronBMVDecoder, DeviceConfiguration.
-- Keychain + live BLE source validated on-device via the gates above.
+- **41 tests pass, 0 failed** (39 unit + 2 UI) across: BatteryState,
+  TelemetryFreshness, SharedTelemetryStore, VictronAdvertisement, VictronCrypto
+  (incl. NIST vector), VictronInstantReadoutRecord (real packet),
+  VictronBMVDecoder, DeviceConfiguration.
+- Keychain + live BLE source + CarPlay scene validated on-device via the gates above.
 
 ## Manual actions required
 

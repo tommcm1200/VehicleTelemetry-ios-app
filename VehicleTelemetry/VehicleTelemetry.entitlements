@@ -6,11 +6,9 @@
 	<array>
 		<string>group.com.tommcmeekin.VehicleTelemetry</string>
 	</array>
-	<!-- CarPlay "Driving Task" entitlement intentionally omitted until Apple
-	     approves the request (see CARPLAY_ENTITLEMENT_REQUEST.md). It is a
-	     managed capability: including it before approval breaks device signing
-	     ("requires approval from Apple to include in a profile"). Re-add
-	       <key>com.apple.developer.carplay-driving-task</key><true/>
-	     once Apple grants it, then regenerate the provisioning profile. -->
+	<!-- CarPlay "Driving Task" category. Approved by Apple on 2026-10-06 and
+	     assigned to team B4R8DBQB9S (see CARPLAY_ENTITLEMENT_REQUEST.md). -->
+	<key>com.apple.developer.carplay-driving-task</key>
+	<true/>
 </dict>
 </plist>

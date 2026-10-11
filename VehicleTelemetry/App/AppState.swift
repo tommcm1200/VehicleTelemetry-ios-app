@@ -60,6 +60,17 @@ final class AppState {
         bluetooth?.startScanning()
     }
 
+    /// If no reading has arrived yet, seed the display from the last saved
+    /// snapshot. This matters most for CarPlay launched while the phone is
+    /// locked: iOS won't deliver advertisement scans to a locked device, so no
+    /// live reading can arrive until unlock. Seeding shows the most recent known
+    /// values with their real freshness (stale / unavailable) instead of a blank
+    /// screen. Never overwrites a live reading.
+    func seedFromStoreIfNeeded() {
+        guard battery == nil, let store, let snapshot = try? store.load() else { return }
+        battery = snapshot.battery
+    }
+
     /// Entering the background: push the latest reading to the widget immediately
     /// (bypassing the reload throttle). Freshness still comes from the reading's
     /// own timestamp, so a stale reading is never presented as fresh. iOS will
